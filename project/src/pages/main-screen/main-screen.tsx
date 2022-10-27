@@ -1,4 +1,8 @@
+import { Helmet } from 'react-helmet-async';
+
 import SmallFilmCard from '../../components/small-film-card/small-film-card';
+import Logo from '../../components/logo/logo';
+
 import { Film } from '../../types/film';
 
 type MainScreenProps = {
@@ -14,6 +18,9 @@ function MainScreen({ filmPromo, cards }: MainScreenProps): JSX.Element {
   return (
     <>
       <section className="film-card">
+        <Helmet>
+          <title>WTW. What to Watch</title>
+        </Helmet>
         <div className="film-card__bg">
           <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
         </div>
@@ -21,13 +28,7 @@ function MainScreen({ filmPromo, cards }: MainScreenProps): JSX.Element {
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo />
 
           <ul className="user-block">
             <li className="user-block__item">
@@ -112,7 +113,7 @@ function MainScreen({ filmPromo, cards }: MainScreenProps): JSX.Element {
           </ul>
 
           <div className="catalog__films-list">
-            {cards.map(({ id, title, src }: Film) => <SmallFilmCard key={id} title={title} src={src} />)}
+            {cards.map((card: Film) => <SmallFilmCard key={card.id} {...card} />)}
           </div>
 
           <div className="catalog__more">
@@ -121,13 +122,7 @@ function MainScreen({ filmPromo, cards }: MainScreenProps): JSX.Element {
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo light />
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
