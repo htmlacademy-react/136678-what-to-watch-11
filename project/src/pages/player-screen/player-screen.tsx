@@ -1,14 +1,35 @@
+import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
-function PlayerScreen(): JSX.Element {
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+import { Film } from '../../types/film';
+
+type PlayerScreenProps = {
+  films: Film[];
+}
+
+function PlayerScreen({ films }: PlayerScreenProps): JSX.Element {
+  const params = useParams();
+  const navigate = useNavigate();
+  const film = films.find((item: Film) => String(item.id) === params.id);
+
+  if (film === undefined) {
+    return <NotFoundScreen />;
+  }
+
+  const onExitButtonClickHandler = () => {
+    const path = `/films/${film.id}`;
+    navigate(path);
+  };
+
   return (
     <div className="player">
       <Helmet>
         <title>WTW. Player</title>
       </Helmet>
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src={film.previewVideoLink} className="player__video" poster={film.previewImage} />
 
-      <button type="button" className="player__exit">Exit</button>
+      <button onClick={onExitButtonClickHandler} type="button" className="player__exit">Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">

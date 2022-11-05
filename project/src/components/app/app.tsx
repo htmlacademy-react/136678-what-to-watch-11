@@ -12,14 +12,16 @@ import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { Film } from '../../types/film';
+import { Review } from '../../types/review';
 
 type AppScreenProps = {
   filmPromo: {
-    title: string;
+    name: string;
     genre: string;
-    year: number;
+    released: number;
   };
-  cards: Film[];
+  films: Film[];
+  reviews: Review[];
 };
 
 function App(props: AppScreenProps): JSX.Element {
@@ -34,17 +36,17 @@ function App(props: AppScreenProps): JSX.Element {
 
           <Route
             path={AppRoute.Film}
-            element={<FilmScreen />}
+            element={<FilmScreen films={props.films} />}
           />
 
           <Route
             path={AppRoute.AddReview}
-            element={<AddReviewScreen />}
+            element={<AddReviewScreen films={props.films} />}
           />
 
           <Route
             path={AppRoute.Player}
-            element={<PlayerScreen />}
+            element={<PlayerScreen films={props.films} />}
           />
 
           <Route
@@ -58,7 +60,7 @@ function App(props: AppScreenProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.NoAuth}
               >
-                <MyListScreen />
+                <MyListScreen films={props.films} />
               </PrivateRoute>
             }
           />

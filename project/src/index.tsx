@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import { FILMS } from './mocks/films';
+import { REVIEWS } from './mocks/reviews';
 
 const FilmCard = {
-  Title: 'The Grand Budapest Hotel',
+  Name: 'The Grand Budapest Hotel',
   Genre: 'Drama',
-  Year: 2014,
+  Released: 2014,
 } as const;
 
 const root = ReactDOM.createRoot(
@@ -15,6 +16,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App filmPromo={{title: FilmCard.Title, genre: FilmCard.Genre, year: FilmCard.Year}} cards={FILMS}/>
+    <App filmPromo={{name: FilmCard.Name, genre: FilmCard.Genre, released: FilmCard.Released}} films={FILMS} reviews={REVIEWS} />
   </React.StrictMode>,
 );
