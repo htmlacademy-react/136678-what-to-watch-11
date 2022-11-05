@@ -2,14 +2,25 @@ import { Link } from 'react-router-dom';
 
 import { Film } from '../../types/film';
 
-function SmallFilmCard({ id, title, src }: Film): JSX.Element {
+type SmallFilmCardProps = {
+  film: Film;
+  onMouseOver: (id: number) => void;
+};
+
+function SmallFilmCard({ film, onMouseOver }: SmallFilmCardProps): JSX.Element {
+  const {
+    posterImage,
+    name,
+    id,
+  } = film;
+
   return (
-    <article className="small-film-card catalog__films-card">
+    <article className="small-film-card catalog__films-card" onMouseOver={() => onMouseOver(id)}>
       <div className="small-film-card__image">
-        <img src={src} alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
+        <img src={posterImage} alt={name} width="280" height="175" />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/films/${id}`}>{title}</Link>
+        <Link className="small-film-card__link" to={`/films/${id}`}>{film.name}</Link>
       </h3>
     </article>
   );
