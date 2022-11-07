@@ -2,19 +2,26 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import Logo from '../../components/logo/logo';
-import { AppRoute } from '../../const';
+import FilmTabs from '../../components/film-tabs/film-tabs';
+import FilmsList from '../../components/films-list/films-list';
+
+import { AppRoute, SIMILAR_FILM_COUNT } from '../../const';
 import { Film } from '../../types/film';
+import { Review } from '../../types/review';
 
 type FilmScreenProps = {
   films: Film[];
+  reviews: Review[];
 }
 
-function FilmScreen({ films }: FilmScreenProps): JSX.Element {
+function FilmScreen({ films, reviews }: FilmScreenProps): JSX.Element {
   const navigate = useNavigate();
   const params = useParams();
   const film = films.find((item) => String(item.id) === params.id) as Film;
 
-  const actorList = film.starring.join(', ');
+  const similarFilms = films
+    .filter((item) => (item.genre === film.genre && item.id !== film.id))
+    .slice(0, SIMILAR_FILM_COUNT);
 
   const onPlayButtonClickHandler = () => {
     const path = `/player/${film.id}`;
@@ -89,35 +96,7 @@ function FilmScreen({ films }: FilmScreenProps): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{film.rating.toFixed(1)}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">{film.scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{film.description}</p>
-
-                <p className="film-card__director"><strong>Director: {film.director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {actorList} and other</strong></p>
-              </div>
+              <FilmTabs film={film} reviews={reviews} />
             </div>
           </div>
         </div>
@@ -127,48 +106,11 @@ function FilmScreen({ films }: FilmScreenProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175"/>
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175"/>
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Bohemian Rhapsody</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175"/>
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Macbeth</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175"/>
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Aviator</a>
-              </h3>
-            </article>
-          </div>
+          <FilmsList films={similarFilms} />
         </section>
 
         <footer className="page-footer">
-          <Logo light />dfg
-
+          <Logo light />
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
           </div>
