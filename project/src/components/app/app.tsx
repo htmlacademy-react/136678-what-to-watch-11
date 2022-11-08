@@ -13,6 +13,8 @@ import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { Film } from '../../types/film';
 import { Review } from '../../types/review';
+import { getFilms } from '../../store/action';
+import { useAppDispatch } from '../../hooks';
 
 type AppScreenProps = {
   filmPromo: {
@@ -25,6 +27,9 @@ type AppScreenProps = {
 };
 
 function App(props: AppScreenProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  dispatch(getFilms());
+
   return (
     <HelmetProvider>
       <BrowserRouter>
