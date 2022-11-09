@@ -28,4 +28,6 @@ export enum RatingLevel {
   Awesome = 'AWESOME',
 }
 
+export const DEFAULT_GENRE_FILTER = 'All genres';
+
 export const SIMILAR_FILM_COUNT = 4;

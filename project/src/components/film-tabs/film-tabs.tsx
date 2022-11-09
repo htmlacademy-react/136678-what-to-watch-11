@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import FilmOverview from '../film-overview/film-overview';
 import FilmDetails from '../film-details/film-details';
@@ -32,9 +31,9 @@ function FilmTabs({ film, reviews }: FilmTabsProps): JSX.Element {
     <>
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
-          {Object.keys(FilmTab).map((tab) => (
+          {Object.values(FilmTab).map((tab) => (
             <li key={tab} className={`film-nav__item ${activeTab === tab ? 'film-nav__item--active' : ''}`} onClick={() => setActiveTab(tab)}>
-              <Link to={'#'} className="film-nav__link">{tab}</Link>
+              <a className="film-nav__link">{tab}</a>
             </li>
           ))}
         </ul>
