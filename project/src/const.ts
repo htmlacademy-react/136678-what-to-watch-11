@@ -31,3 +31,4 @@ export enum RatingLevel {
 export const DEFAULT_GENRE_FILTER = 'All genres';
 
 export const SIMILAR_FILM_COUNT = 4;
+export const DEFAULT_SHOWN_FILM_COUNT = 8;
