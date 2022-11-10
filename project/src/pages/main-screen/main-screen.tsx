@@ -3,10 +3,11 @@ import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import FilmsList from '../../components/films-list/films-list';
 import GenreList from '../../components/genre-list/genre-list';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
 
-import { Film } from '../../types/film';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { DEFAULT_GENRE_FILTER } from '../../const';
+import { incFilmsCount } from '../../store/action';
 
 type MainScreenProps = {
   filmPromo: {
@@ -17,12 +18,17 @@ type MainScreenProps = {
 }
 
 function MainScreen({ filmPromo }: MainScreenProps): JSX.Element {
-  const genreFilter = useAppSelector((state) => state.genreFilter);
-  const films: Film[] = useAppSelector((state) => state.films);
+  const dispatch = useAppDispatch();
+
+  const {films, genreFilter, filmsCount} = useAppSelector((state) => state);
 
   const filteredFilms = genreFilter === DEFAULT_GENRE_FILTER
     ? films
     : films.filter((film) => film.genre === genreFilter);
+
+  const handleMoreButtonClick = () => {
+    dispatch(incFilmsCount());
+  };
 
   return (
     <>
@@ -90,11 +96,9 @@ function MainScreen({ filmPromo }: MainScreenProps): JSX.Element {
 
           <GenreList />
 
-          <FilmsList films={filteredFilms} />
+          <FilmsList films={filteredFilms.slice(0, filmsCount)}/>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {((filteredFilms.length - filmsCount) > 0) && <ShowMoreButton onClick={handleMoreButtonClick}/>}
         </section>
 
         <footer className="page-footer">

@@ -1,6 +1,6 @@
 import { Film } from '../../types/film';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeFilter } from '../../store/action';
+import { changeFilter, resetFilmsCount } from '../../store/action';
 import { DEFAULT_GENRE_FILTER } from '../../const';
 
 const getGenreList = (films: Film[]) => [DEFAULT_GENRE_FILTER, ...new Set(films.map((film) => film.genre))];
@@ -20,6 +20,7 @@ function GenreList() {
             (evt) => {
               evt.preventDefault();
               dispatch(changeFilter(genre));
+              dispatch(resetFilmsCount());
             }
           } className="catalog__genres-link"
           >
