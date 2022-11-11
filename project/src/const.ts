@@ -8,6 +8,16 @@ export enum AppRoute {
   NotFound = '*',
 }
 
+export enum APIRoute {
+  Films = '/films',
+  Promo = '/promo',
+  Login = '/login',
+  Logout = '/logout',
+  Comments = '/comments',
+  Film = '/films/',
+  Favorite = '/favorite',
+}
+
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',

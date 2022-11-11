@@ -6,12 +6,11 @@ import { AppRoute } from '../../const';
 import ReviewForm from '../../components/review-form/review-form';
 import { Film } from '../../types/film';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import { useAppSelector } from '../../hooks';
 
-type AddReviewScreenProps = {
-  films: Film[];
-}
+function AddReviewScreen(): JSX.Element {
+  const { films } = useAppSelector((state) => state);
 
-function AddReviewScreen({ films }: AddReviewScreenProps): JSX.Element {
   const params = useParams();
   const film = films.find((item: Film) => String(item.id) === params.id);
 

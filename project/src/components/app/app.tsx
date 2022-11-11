@@ -9,12 +9,11 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import PrivateRoute from '../private-route/private-route';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { Film } from '../../types/film';
 import { Review } from '../../types/review';
-import { getFilms } from '../../store/action';
-import { useAppDispatch } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 
 type AppScreenProps = {
   filmPromo: {
@@ -22,13 +21,15 @@ type AppScreenProps = {
     genre: string;
     released: number;
   };
-  films: Film[];
   reviews: Review[];
 };
 
 function App(props: AppScreenProps): JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(getFilms());
+  const { isLoading } = useAppSelector((state) => state);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <HelmetProvider>
@@ -41,17 +42,17 @@ function App(props: AppScreenProps): JSX.Element {
 
           <Route
             path={AppRoute.Film}
-            element={<FilmScreen films={props.films} reviews={props.reviews} />}
+            element={<FilmScreen reviews={props.reviews} />}
           />
 
           <Route
             path={AppRoute.AddReview}
-            element={<AddReviewScreen films={props.films} />}
+            element={<AddReviewScreen />}
           />
 
           <Route
             path={AppRoute.Player}
-            element={<PlayerScreen films={props.films} />}
+            element={<PlayerScreen />}
           />
 
           <Route
@@ -65,7 +66,7 @@ function App(props: AppScreenProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.NoAuth}
               >
-                <MyListScreen films={props.films} />
+                <MyListScreen />
               </PrivateRoute>
             }
           />
