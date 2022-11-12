@@ -8,13 +8,15 @@ import FilmsList from '../../components/films-list/films-list';
 import { AppRoute, SIMILAR_FILM_COUNT } from '../../const';
 import { Film } from '../../types/film';
 import { Review } from '../../types/review';
+import { useAppSelector } from '../../hooks';
 
 type FilmScreenProps = {
-  films: Film[];
   reviews: Review[];
 }
 
-function FilmScreen({ films, reviews }: FilmScreenProps): JSX.Element {
+function FilmScreen({ reviews }: FilmScreenProps): JSX.Element {
+  const { films } = useAppSelector((state) => state);
+
   const navigate = useNavigate();
   const params = useParams();
   const film = films.find((item) => String(item.id) === params.id) as Film;

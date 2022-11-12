@@ -20,7 +20,7 @@ type MainScreenProps = {
 function MainScreen({ filmPromo }: MainScreenProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const {films, genreFilter, filmsCount} = useAppSelector((state) => state);
+  const { films, genreFilter, filmsCount } = useAppSelector((state) => state);
 
   const filteredFilms = genreFilter === DEFAULT_GENRE_FILTER
     ? films
@@ -43,7 +43,7 @@ function MainScreen({ filmPromo }: MainScreenProps): JSX.Element {
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <Logo />
+          <Logo/>
 
           <ul className="user-block">
             <li className="user-block__item">
@@ -60,14 +60,14 @@ function MainScreen({ filmPromo }: MainScreenProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={filmPromo.name} width="218" height="327"/>
+              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={ filmPromo.name } width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{filmPromo.name}</h2>
+              <h2 className="film-card__title">{ filmPromo.name }</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{filmPromo.genre}</span>
-                <span className="film-card__year">{filmPromo.released}</span>
+                <span className="film-card__genre">{ filmPromo.genre }</span>
+                <span className="film-card__year">{ filmPromo.released }</span>
               </p>
 
               <div className="film-card__buttons">
@@ -94,15 +94,15 @@ function MainScreen({ filmPromo }: MainScreenProps): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList />
+          <GenreList/>
 
-          <FilmsList films={filteredFilms.slice(0, filmsCount)}/>
+          <FilmsList films={ filteredFilms.slice(0, filmsCount) }/>
 
-          {((filteredFilms.length - filmsCount) > 0) && <ShowMoreButton onClick={handleMoreButtonClick}/>}
+          { ((filteredFilms.length - filmsCount) > 0) && <ShowMoreButton onClick={ handleMoreButtonClick }/> }
         </section>
 
         <footer className="page-footer">
-          <Logo light />
+          <Logo light/>
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>

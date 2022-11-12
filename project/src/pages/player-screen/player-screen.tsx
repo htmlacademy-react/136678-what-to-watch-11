@@ -3,12 +3,11 @@ import { Helmet } from 'react-helmet-async';
 
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { Film } from '../../types/film';
+import { useAppSelector } from '../../hooks';
 
-type PlayerScreenProps = {
-  films: Film[];
-}
+function PlayerScreen(): JSX.Element {
+  const { films } = useAppSelector((state) => state);
 
-function PlayerScreen({ films }: PlayerScreenProps): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
   const film = films.find((item: Film) => String(item.id) === params.id);
