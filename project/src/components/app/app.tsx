@@ -11,7 +11,7 @@ import PrivateRoute from '../private-route/private-route';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 import { Review } from '../../types/review';
 import { useAppSelector } from '../../hooks';
 
@@ -25,7 +25,7 @@ type AppScreenProps = {
 };
 
 function App(props: AppScreenProps): JSX.Element {
-  const { isLoading } = useAppSelector((state) => state);
+  const { isLoading, authorizationStatus } = useAppSelector((state) => state);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -64,7 +64,7 @@ function App(props: AppScreenProps): JSX.Element {
             path={AppRoute.MyList}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={authorizationStatus}
               >
                 <MyListScreen />
               </PrivateRoute>

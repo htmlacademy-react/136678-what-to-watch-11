@@ -4,8 +4,9 @@ import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import FilmTabs from '../../components/film-tabs/film-tabs';
 import FilmsList from '../../components/films-list/films-list';
+import UserBlock from '../../components/user-block/user-block';
 
-import { AppRoute, SIMILAR_FILM_COUNT } from '../../const';
+import { SIMILAR_FILM_COUNT } from '../../const';
 import { Film } from '../../types/film';
 import { Review } from '../../types/review';
 import { useAppSelector } from '../../hooks';
@@ -51,16 +52,7 @@ function FilmScreen({ reviews }: FilmScreenProps): JSX.Element {
           <header className="page-header film-card__head">
             <Logo />
 
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-                </div>
-              </li>
-              <li className="user-block__item">
-                <Link className="user-block__link" to={AppRoute.Main}>Sign out</Link>
-              </li>
-            </ul>
+            <UserBlock />
           </header>
 
           <div className="film-card__wrap">
