@@ -1,50 +1,50 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Logo from '../../components/logo/logo';
 import FilmTabs from '../../components/film-tabs/film-tabs';
 import FilmsList from '../../components/films-list/films-list';
 import UserBlock from '../../components/user-block/user-block';
+import FilmButtons from '../../components/film-buttons/film-buttons';
 
-import { SIMILAR_FILM_COUNT } from '../../const';
-import { Film } from '../../types/film';
-import { Review } from '../../types/review';
-import { useAppSelector } from '../../hooks';
+import { getFilmAction, getFilmCommentsAction, getSimilarFilmsAction } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { AuthorizationStatus } from '../../const';
 
-type FilmScreenProps = {
-  reviews: Review[];
-}
+function FilmScreen(): JSX.Element | null {
+  const dispatch = useAppDispatch();
 
-function FilmScreen({ reviews }: FilmScreenProps): JSX.Element {
-  const { films } = useAppSelector((state) => state);
+  const { film, authorizationStatus, similarFilms, isLoading, filmComments } = useAppSelector((state) => state);
 
-  const navigate = useNavigate();
   const params = useParams();
-  const film = films.find((item) => String(item.id) === params.id) as Film;
 
-  const similarFilms = films
-    .filter((item) => (item.genre === film.genre && item.id !== film.id))
-    .slice(0, SIMILAR_FILM_COUNT);
+  useEffect(() => {
+    if (!isLoading && params?.id && String(film?.id) !== params.id) {
+      dispatch(getFilmAction(params.id));
+      dispatch(getSimilarFilmsAction(params.id));
+      dispatch(getFilmCommentsAction(params.id));
+    }
+  }, [params?.id, film?.id, dispatch, isLoading]);
 
-  const onPlayButtonClickHandler = () => {
-    const path = `/player/${film.id}`;
-    navigate(path);
-  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [params?.id]);
 
-  const onMyListButtonClickHandler = () => {
-    const path = '/mylist';
-    navigate(path);
-  };
+  if (!film) {
+    return <NotFoundScreen />;
+  }
 
   return (
     <>
-      <section className="film-card film-card--full">
+      <section className="film-card film-card--full" style={{ background: film.backgroundColor }}>
         <Helmet>
           <title>WTW. Film-page</title>
         </Helmet>
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.backgroundImage} alt={film.name} />
+            <img src={film?.backgroundImage} alt={film?.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -57,28 +57,13 @@ function FilmScreen({ reviews }: FilmScreenProps): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.name}</h2>
+              <h2 className="film-card__title">{film?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.released}</span>
+                <span className="film-card__genre">{film?.genre}</span>
+                <span className="film-card__year">{film?.released}</span>
               </p>
 
-              <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={onPlayButtonClickHandler}>
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button" onClick={onMyListButtonClickHandler}>
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{films.length}</span>
-                </button>
-                <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>
-              </div>
+              <FilmButtons film={film} showReviewButton={authorizationStatus === AuthorizationStatus.Auth} />
             </div>
           </div>
         </div>
@@ -86,11 +71,11 @@ function FilmScreen({ reviews }: FilmScreenProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film.posterImage} alt={film.name} width="218" height="327" />
+              <img src={film?.posterImage} alt={film?.name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <FilmTabs film={film} reviews={reviews} />
+              {film && (<FilmTabs film={film} reviews={filmComments} />)}
             </div>
           </div>
         </div>

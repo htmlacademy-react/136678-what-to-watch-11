@@ -5,12 +5,12 @@ import FilmDetails from '../film-details/film-details';
 import FilmReviews from '../film-reviews/film-reviews';
 
 import { Film } from '../../types/film';
-import { Review } from '../../types/review';
+import { Comment } from '../../types/comment';
 import { FilmTab } from '../../const';
 
 type FilmTabsProps = {
   film: Film;
-  reviews: Review[];
+  reviews: Comment[];
 }
 
 function FilmTabs({ film, reviews }: FilmTabsProps): JSX.Element {

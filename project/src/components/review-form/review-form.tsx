@@ -1,12 +1,20 @@
-import { Fragment, useState, SyntheticEvent } from 'react';
+import { Fragment, useState, SyntheticEvent, FormEvent } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { addReviewAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks';
+import { APIRoute } from '../../const';
 
 type ReviewProps = {
   comment: string;
   rating: null | number;
 }
 
-
 function ReviewForm(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const params = useParams();
+
   const [formState, setFormState] = useState<ReviewProps>({
     comment: '',
     rating: null
@@ -22,6 +30,19 @@ function ReviewForm(): JSX.Element {
     }
   };
 
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    const data = {
+      rating: Number(formState.rating),
+      comment: formState.comment,
+    };
+
+    if (params?.id && formState.rating && formState.comment) {
+      dispatch(addReviewAction([params.id, data]));
+      navigate(`${APIRoute.Films}/${params.id}`);
+    }
+  };
+
   const starsList = Array.from({length: 10}, (_, i) => {
     const key = String(10 - i);
     return (
@@ -32,7 +53,7 @@ function ReviewForm(): JSX.Element {
   });
 
   return (
-    <form action="#" className="add-review__form" onChange={handleFormChange}>
+    <form action="#" className="add-review__form" onChange={handleFormChange} onSubmit={handleFormSubmit}>
       <div className="rating">
         <div className="rating__stars">
           {starsList}

@@ -5,23 +5,16 @@ import FilmsList from '../../components/films-list/films-list';
 import GenreList from '../../components/genre-list/genre-list';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import UserBlock from '../../components/user-block/user-block';
+import FilmButtons from '../../components/film-buttons/film-buttons';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { DEFAULT_GENRE_FILTER } from '../../const';
 import { incFilmsCount } from '../../store/action';
 
-type MainScreenProps = {
-  filmPromo: {
-    name: string;
-    genre: string;
-    released: number;
-  };
-}
-
-function MainScreen({ filmPromo }: MainScreenProps): JSX.Element {
+function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const { films, genreFilter, filmsCount } = useAppSelector((state) => state);
+  const { films, genreFilter, filmsCount, promoFilm } = useAppSelector((state) => state);
 
   const filteredFilms = genreFilter === DEFAULT_GENRE_FILTER
     ? films
@@ -38,7 +31,7 @@ function MainScreen({ filmPromo }: MainScreenProps): JSX.Element {
           <title>WTW. What to Watch</title>
         </Helmet>
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -52,31 +45,17 @@ function MainScreen({ filmPromo }: MainScreenProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={ filmPromo.name } width="218" height="327"/>
+              <img src={promoFilm.posterImage} alt={ promoFilm.name } width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{ filmPromo.name }</h2>
+              <h2 className="film-card__title">{ promoFilm.name }</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{ filmPromo.genre }</span>
-                <span className="film-card__year">{ filmPromo.released }</span>
+                <span className="film-card__genre">{ promoFilm.genre }</span>
+                <span className="film-card__year">{ promoFilm.released }</span>
               </p>
 
-              <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
-              </div>
+              <FilmButtons film={promoFilm} />
             </div>
           </div>
         </div>
