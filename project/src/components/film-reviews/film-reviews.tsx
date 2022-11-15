@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
-import { Review } from '../../types/review';
+import { Comment } from '../../types/comment';
 
 type FilmReviewsProps = {
-  reviews: Review[];
+  reviews: Comment[];
 }
 
 function FilmReviews({ reviews }: FilmReviewsProps): JSX.Element {

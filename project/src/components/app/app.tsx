@@ -9,40 +9,27 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import PrivateRoute from '../private-route/private-route';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
-import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import Spinner from '../spinner/spinner';
 
 import { AppRoute } from '../../const';
-import { Review } from '../../types/review';
 import { useAppSelector } from '../../hooks';
 
-type AppScreenProps = {
-  filmPromo: {
-    name: string;
-    genre: string;
-    released: number;
-  };
-  reviews: Review[];
-};
-
-function App(props: AppScreenProps): JSX.Element {
+function App(): JSX.Element {
   const { isLoading, authorizationStatus } = useAppSelector((state) => state);
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
 
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <Spinner isLoading={isLoading} />
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainScreen {...props} />}
+            element={<MainScreen />}
           />
 
           <Route
             path={AppRoute.Film}
-            element={<FilmScreen reviews={props.reviews} />}
+            element={<FilmScreen />}
           />
 
           <Route

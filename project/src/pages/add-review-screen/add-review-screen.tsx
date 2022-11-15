@@ -21,13 +21,13 @@ function AddReviewScreen(): JSX.Element {
   }
 
   return (
-    <section className="film-card film-card--full">
+    <section className="film-card film-card--full" style={{ background: film.backgroundColor }}>
       <Helmet>
         <title>WTW. Review</title>
       </Helmet>
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={film.backgroundImage} alt={film.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
