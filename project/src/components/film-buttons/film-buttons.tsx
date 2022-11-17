@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { Film } from '../../types/film';
 import { useAppSelector } from '../../hooks';
+import { getFavoriteFilms } from '../../store/user-process/selector';
 
 type FilmButtonsProps = {
   film: Film;
@@ -11,7 +12,7 @@ type FilmButtonsProps = {
 
 function FilmButtons({ film, showReviewButton }: FilmButtonsProps): JSX.Element {
   const navigate = useNavigate();
-  const { favoriteFilms } = useAppSelector((state) => state);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
 
   const handleMyListButtonClick = () => {
     const path = '/mylist';

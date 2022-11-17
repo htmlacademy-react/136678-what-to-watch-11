@@ -1,24 +1,33 @@
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import Logo from '../../components/logo/logo';
+import Footer from '../../components/footer/footer';
+import Header from '../../components/header/header';
 import FilmsList from '../../components/films-list/films-list';
 import GenreList from '../../components/genre-list/genre-list';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
-import UserBlock from '../../components/user-block/user-block';
 import FilmButtons from '../../components/film-buttons/film-buttons';
+import Spinner from '../../components/spinner/spinner';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { DEFAULT_GENRE_FILTER } from '../../const';
+import { getGenreFilter, getShownFilmsCount } from '../../store/app-process/selectors';
+import {
+  getFilmsDataLoadingStatus,
+  getFilteredFilms,
+  getGenreList,
+  getPromoFilm
+} from '../../store/data-process/selectors';
 import { incFilmsCount } from '../../store/action';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const { films, genreFilter, filmsCount, promoFilm } = useAppSelector((state) => state);
-
-  const filteredFilms = genreFilter === DEFAULT_GENRE_FILTER
-    ? films
-    : films.filter((film) => film.genre === genreFilter);
+  const promoFilm = useAppSelector(getPromoFilm);
+  const genres = useAppSelector(getGenreList);
+  const activeGenre = useAppSelector(getGenreFilter);
+  const filmsCount = useAppSelector(getShownFilmsCount);
+  const filteredFilms = useAppSelector(getFilteredFilms);
+  const isLoading = useAppSelector(getFilmsDataLoadingStatus);
 
   const handleMoreButtonClick = () => {
     dispatch(incFilmsCount());
@@ -26,36 +35,33 @@ function MainScreen(): JSX.Element {
 
   return (
     <>
+      <Spinner isLoading={isLoading} />
       <section className="film-card">
         <Helmet>
           <title>WTW. What to Watch</title>
         </Helmet>
         <div className="film-card__bg">
-          <img src={promoFilm.backgroundImage} alt={promoFilm.name}/>
+          <img src={ promoFilm?.backgroundImage } alt={ promoFilm?.name }/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <header className="page-header film-card__head">
-          <Logo/>
-
-          <UserBlock />
-        </header>
+        <Header className="film-card__head" />
 
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={promoFilm.posterImage} alt={ promoFilm.name } width="218" height="327"/>
+              <img src={ promoFilm?.posterImage } alt={ promoFilm?.name } width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{ promoFilm.name }</h2>
+              <h2 className="film-card__title">{ promoFilm?.name }</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{ promoFilm.genre }</span>
-                <span className="film-card__year">{ promoFilm.released }</span>
+                <span className="film-card__genre">{ promoFilm?.genre }</span>
+                <span className="film-card__year">{ promoFilm?.released }</span>
               </p>
 
-              <FilmButtons film={promoFilm} />
+              {promoFilm && (<FilmButtons film={ promoFilm }/>)}
             </div>
           </div>
         </div>
@@ -65,20 +71,14 @@ function MainScreen(): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList/>
+          <GenreList activeGenre={ activeGenre } genres={ genres }/>
 
           <FilmsList films={ filteredFilms.slice(0, filmsCount) }/>
 
           { ((filteredFilms.length - filmsCount) > 0) && <ShowMoreButton onClick={ handleMoreButtonClick }/> }
         </section>
 
-        <footer className="page-footer">
-          <Logo light/>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer/>
       </div>
     </>
   );

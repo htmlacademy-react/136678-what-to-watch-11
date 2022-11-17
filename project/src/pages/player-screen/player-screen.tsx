@@ -4,9 +4,10 @@ import { Helmet } from 'react-helmet-async';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { Film } from '../../types/film';
 import { useAppSelector } from '../../hooks';
+import { getFilms } from '../../store/data-process/selectors';
 
 function PlayerScreen(): JSX.Element {
-  const { films } = useAppSelector((state) => state);
+  const films = useAppSelector(getFilms);
 
   const params = useParams();
   const navigate = useNavigate();

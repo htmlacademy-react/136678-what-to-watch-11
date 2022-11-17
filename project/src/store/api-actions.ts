@@ -101,6 +101,7 @@ export const checkAuthAction = createAsyncThunk<UserInfo, undefined, {
   'checkAuthAction',
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<UserInfo>(APIRoute.Login);
+    dispatch(getFavoriteFilmsAction());
     return data;
   },
 );
@@ -114,6 +115,7 @@ export const loginAction = createAsyncThunk<UserInfo, AuthInfo, {
   async ({ login: email, password }, { dispatch, extra: api }) => {
     const { data } = await api.post<UserInfo>(APIRoute.Login, { email, password });
     saveToken(data.token);
+    dispatch(getFavoriteFilmsAction());
     return data;
   },
 );
