@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
-import { checkAuthAction, getFavoriteFilmsAction, getFilmsAction, getPromoFilmAction } from './store/api-actions';
+import { checkAuthAction, getFilmsAction, getPromoFilmAction } from './store/api-actions';
 import { store } from './store';
 import { getToken } from './services/token';
 
@@ -16,11 +16,10 @@ if (getToken()) {
 
 store.dispatch(getFilmsAction());
 store.dispatch(getPromoFilmAction());
-store.dispatch(getFavoriteFilmsAction());
 
 root.render(
   <React.StrictMode>
-    <Provider store = {store}>
+    <Provider store={store}>
       <App />
     </Provider>
   </React.StrictMode>,

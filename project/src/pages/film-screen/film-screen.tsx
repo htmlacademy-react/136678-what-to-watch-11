@@ -2,21 +2,33 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
+import Footer from '../../components/footer/footer';
+import Header from '../../components/header/header';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import Logo from '../../components/logo/logo';
 import FilmTabs from '../../components/film-tabs/film-tabs';
 import FilmsList from '../../components/films-list/films-list';
-import UserBlock from '../../components/user-block/user-block';
 import FilmButtons from '../../components/film-buttons/film-buttons';
+import Spinner from '../../components/spinner/spinner';
 
+import { getAuthorizationStatus } from '../../store/user-process/selector';
 import { getFilmAction, getFilmCommentsAction, getSimilarFilmsAction } from '../../store/api-actions';
+import {
+  getFilm,
+  getFilmComments,
+  getFilmDataLoadingStatus,
+  getSimilarFilms,
+} from '../../store/film-process/selectors';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, SIMILAR_FILM_COUNT } from '../../const';
 
 function FilmScreen(): JSX.Element | null {
   const dispatch = useAppDispatch();
 
-  const { film, authorizationStatus, similarFilms, isLoading, filmComments } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const film = useAppSelector(getFilm);
+  const similarFilms = useAppSelector(getSimilarFilms);
+  const filmComments = useAppSelector(getFilmComments);
+  const isLoading = useAppSelector(getFilmDataLoadingStatus);
 
   const params = useParams();
 
@@ -32,38 +44,40 @@ function FilmScreen(): JSX.Element | null {
     window.scrollTo(0, 0);
   }, [params?.id]);
 
-  if (!film) {
-    return <NotFoundScreen />;
+  if (!film && !isLoading) {
+    return <NotFoundScreen/>;
   }
 
   return (
     <>
-      <section className="film-card film-card--full" style={{ background: film.backgroundColor }}>
+      <Spinner isLoading={isLoading} />
+      <section className="film-card film-card--full" style={ { background: film?.backgroundColor } }>
         <Helmet>
           <title>WTW. Film-page</title>
         </Helmet>
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film?.backgroundImage} alt={film?.name} />
+            <img src={ film?.backgroundImage } alt={ film?.name }/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <header className="page-header film-card__head">
-            <Logo />
-
-            <UserBlock />
-          </header>
+          <Header className="film-card__head" />
 
           <div className="film-card__wrap">
-            <div className="film-card__desc">
-              <h2 className="film-card__title">{film?.name}</h2>
-              <p className="film-card__meta">
-                <span className="film-card__genre">{film?.genre}</span>
-                <span className="film-card__year">{film?.released}</span>
-              </p>
+            <div className="film-card__info">
+              <div className="film-card__desc">
+                <h2 className="film-card__title">{ film?.name }</h2>
+                <p className="film-card__meta">
+                  <span className="film-card__genre">{ film?.genre }</span>
+                  <span className="film-card__year">{ film?.released }</span>
+                </p>
 
-              <FilmButtons film={film} showReviewButton={authorizationStatus === AuthorizationStatus.Auth} />
+                {film && (
+                  <FilmButtons film={ film } showReviewButton={ authorizationStatus === AuthorizationStatus.Auth }/>
+                )}
+
+              </div>
             </div>
           </div>
         </div>
@@ -71,11 +85,11 @@ function FilmScreen(): JSX.Element | null {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film?.posterImage} alt={film?.name} width="218" height="327" />
+              <img src={ film?.posterImage } alt={ film?.name } width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              {film && (<FilmTabs film={film} reviews={filmComments} />)}
+              { film && (<FilmTabs film={ film } reviews={ filmComments }/>) }
             </div>
           </div>
         </div>
@@ -85,15 +99,10 @@ function FilmScreen(): JSX.Element | null {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmsList films={similarFilms} />
+          <FilmsList films={ similarFilms.slice(0, SIMILAR_FILM_COUNT) }/>
         </section>
 
-        <footer className="page-footer">
-          <Logo light />
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer/>
       </div>
     </>
   );

@@ -9,18 +9,17 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import PrivateRoute from '../private-route/private-route';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
-import Spinner from '../spinner/spinner';
 
+import { getAuthorizationStatus } from '../../store/user-process/selector';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks';
 
 function App(): JSX.Element {
-  const { isLoading, authorizationStatus } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <HelmetProvider>
       <BrowserRouter>
-        <Spinner isLoading={isLoading} />
         <Routes>
           <Route
             path={AppRoute.Main}

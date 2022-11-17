@@ -2,13 +2,18 @@ import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import Logo from '../../components/logo/logo';
-import { FormEvent, useEffect, useRef } from 'react';
+import Footer from '../../components/footer/footer';
+import React, { FormEvent, useEffect, useRef } from 'react';
 import { loginAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { getAuthorizationStatus, getUserInfoLoadingStatus } from '../../store/user-process/selector';
+import Spinner from '../../components/spinner/spinner';
 
 function SignInScreen() {
-  const { authorizationStatus } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isLoading = useAppSelector(getUserInfoLoadingStatus);
+
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -34,6 +39,8 @@ function SignInScreen() {
 
   return (
     <div className="user-page">
+      <Spinner isLoading={isLoading} />
+
       <Helmet>
         <title>WTW. Login</title>
       </Helmet>
@@ -56,18 +63,12 @@ function SignInScreen() {
             </div>
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit">Sign in</button>
+            <button className="sign-in__btn" type="submit" disabled={isLoading}>Sign in</button>
           </div>
         </form>
       </div>
 
-      <footer className="page-footer">
-        <Logo light/>
-
-        <div className="copyright">
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

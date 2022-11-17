@@ -1,16 +1,14 @@
-import { Film } from '../../types/film';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import React from 'react';
+import { useAppDispatch } from '../../hooks';
 import { changeFilter, resetFilmsCount } from '../../store/action';
-import { DEFAULT_GENRE_FILTER } from '../../const';
 
-const getGenreList = (films: Film[]) => [DEFAULT_GENRE_FILTER, ...new Set(films.map((film) => film.genre))];
+type GenreListProps = {
+  activeGenre: string;
+  genres: string[];
+}
 
-function GenreList() {
+function GenreList({ activeGenre, genres }: GenreListProps) {
   const dispatch = useAppDispatch();
-  const activeGenre = useAppSelector((state) => state.genreFilter);
-  const films = useAppSelector((state) => state.films);
-
-  const genres = getGenreList(films);
 
   return (
     <ul className="catalog__genres-list">

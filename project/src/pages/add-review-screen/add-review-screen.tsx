@@ -1,17 +1,17 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
-import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import UserBlock from '../../components/user-block/user-block';
+import Header from '../../components/header/header';
+import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 
-import { AppRoute } from '../../const';
 import { Film } from '../../types/film';
 import { useAppSelector } from '../../hooks';
+import { getFilms } from '../../store/data-process/selectors';
 
 function AddReviewScreen(): JSX.Element {
-  const { films } = useAppSelector((state) => state);
+  const films = useAppSelector(getFilms);
 
   const params = useParams();
   const film = films.find((item: Film) => String(item.id) === params.id);
@@ -32,22 +32,9 @@ function AddReviewScreen(): JSX.Element {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <header className="page-header">
-          <Logo />
-
-          <nav className="breadcrumbs">
-            <ul className="breadcrumbs__list">
-              <li className="breadcrumbs__item">
-                <Link to={`/films/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
-              </li>
-              <li className="breadcrumbs__item">
-                <Link className="breadcrumbs__link" to={AppRoute.AddReview}>Add review</Link>
-              </li>
-            </ul>
-          </nav>
-
-          <UserBlock />
-        </header>
+        <Header className="film-card--full">
+          <Breadcrumbs film={film} />
+        </Header>
 
         <div className="film-card__poster film-card__poster--small">
           <img src={film?.posterImage} alt={film?.name} width="218" height="327"/>
