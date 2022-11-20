@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getFilmsAction, getPromoFilmAction } from '../api-actions';
+import { changeFavoriteStatusAction, getFilmsAction, getPromoFilmAction } from '../api-actions';
 import { NameSpace } from '../../const';
 import { DataProcess } from '../../types/state';
 
@@ -25,6 +25,11 @@ const dataProcess = createSlice({
       .addCase(getFilmsAction.fulfilled, (state, action) => {
         state.films = action.payload;
         state.isLoading = false;
+      })
+      .addCase(changeFavoriteStatusAction.fulfilled, (state, action) => {
+        if (state.promoFilm?.id === action.payload.id) {
+          state.promoFilm.isFavorite = action.payload.isFavorite;
+        }
       });
   }
 });

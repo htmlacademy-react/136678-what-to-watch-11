@@ -5,6 +5,8 @@ import App from './components/app/app';
 import { checkAuthAction, getFilmsAction, getPromoFilmAction } from './store/api-actions';
 import { store } from './store';
 import { getToken } from './services/token';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -19,8 +21,9 @@ store.dispatch(getPromoFilmAction());
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
+    <Provider store={ store }>
+      <ToastContainer/>
+      <App/>
     </Provider>
   </React.StrictMode>,
 );

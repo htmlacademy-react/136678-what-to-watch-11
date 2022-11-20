@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { checkAuthAction, getFavoriteFilmsAction, loginAction, logoutAction } from '../api-actions';
+import {
+  changeFavoriteStatusAction,
+  checkAuthAction,
+  getFavoriteFilmsAction,
+  loginAction,
+  logoutAction
+} from '../api-actions';
 import { AuthorizationStatus, NameSpace } from '../../const';
 import { UserProcess } from '../../types/state';
 
@@ -43,6 +49,13 @@ const userProcess = createSlice({
       })
       .addCase(getFavoriteFilmsAction.fulfilled, (state, action) => {
         state.favoriteFilms = action.payload;
+      })
+      .addCase(changeFavoriteStatusAction.fulfilled, (state, action) => {
+        if (action.payload.isFavorite && !state.favoriteFilms.find((film) => film.id === action.payload.id)) {
+          state.favoriteFilms.push(action.payload);
+        } else {
+          state.favoriteFilms = state.favoriteFilms.filter((film) => film.id !== action.payload.id);
+        }
       });
   }
 });

@@ -7,6 +7,7 @@ import { APIRoute } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { AuthInfo } from '../types/auth-info';
 import { UserInfo } from '../types/user-info';
+import { FavoriteStatus } from '../types/favorite-status';
 
 export const getFilmsAction = createAsyncThunk<Film[], undefined, {
   dispatch: AppDispatch;
@@ -44,6 +45,17 @@ export const getFavoriteFilmsAction = createAsyncThunk<Film[], undefined, {
   },
 );
 
+export const changeFavoriteStatusAction = createAsyncThunk<Film, FavoriteStatus, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'changeFavoriteStatusAction',
+  async ({filmId, status}, { extra: api }) => {
+    const { data } = await api.post<Film>(`${APIRoute.Favorite}/${filmId}/${status}`);
+    return data;
+  },
+);
 
 export const getFilmAction = createAsyncThunk<Film, string, {
   dispatch: AppDispatch;
