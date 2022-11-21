@@ -1,9 +1,10 @@
-import { Fragment, useState, SyntheticEvent, FormEvent } from 'react';
+import { Fragment, useState, SyntheticEvent, FormEvent, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { addReviewAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks';
 import { APIRoute } from '../../const';
+import { NewComment } from '../../types/comment';
 
 type ReviewProps = {
   comment: string;
@@ -20,6 +21,10 @@ function ReviewForm(): JSX.Element {
     rating: null
   });
 
+  const isValid = useMemo(() =>
+    formState.rating && formState.comment.length >= 50 && formState.comment.length <= 400,
+  [formState.comment.length, formState.rating]);
+
   const handleFormChange = (evt: SyntheticEvent) => {
     const target = evt.target as HTMLTextAreaElement | HTMLInputElement;
     if (target.name === 'review-text') {
@@ -32,14 +37,17 @@ function ReviewForm(): JSX.Element {
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const data = {
+    const review: NewComment = {
       rating: Number(formState.rating),
       comment: formState.comment,
     };
 
-    if (params?.id && formState.rating && formState.comment) {
-      dispatch(addReviewAction([params.id, data]));
-      navigate(`${APIRoute.Films}/${params.id}`);
+    if (params.id && isValid) {
+      dispatch(addReviewAction([params.id, review])).then((data) => {
+        if (data.payload) {
+          navigate(`${APIRoute.Films}/${String(params.id)}`);
+        }
+      });
     }
   };
 
@@ -61,9 +69,16 @@ function ReviewForm(): JSX.Element {
       </div>
 
       <div className="add-review__text" style={{backgroundColor: '#FFFFFF', opacity: '65%'}}>
-        <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" defaultValue={formState.comment} />
+        <textarea
+          className="add-review__textarea"
+          name="review-text"
+          id="review-text"
+          placeholder="Review text"
+          defaultValue={formState.comment}
+          required
+        />
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
+          <button className="add-review__btn" type="submit" disabled={!isValid}>Post</button>
         </div>
       </div>
     </form>

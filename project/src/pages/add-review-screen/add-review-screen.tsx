@@ -32,7 +32,7 @@ function AddReviewScreen(): JSX.Element {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <Header className="film-card--full">
+        <Header>
           <Breadcrumbs film={film} />
         </Header>
 
