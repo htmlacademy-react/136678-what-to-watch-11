@@ -33,13 +33,15 @@ function PlayerScreen(): JSX.Element {
     }
   }, [params.id]);
 
-  if (!film) {
+  if (!film && !isLoading) {
     return <NotFoundScreen />;
   }
 
   const onExitButtonClickHandler = () => {
-    const path = `/films/${film?.id}`;
-    navigate(path);
+    if (film) {
+      const path = `/films/${film.id}`;
+      navigate(path);
+    }
   };
 
   return (

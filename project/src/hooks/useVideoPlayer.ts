@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import { checkFullscreen, enterFullscreen, exitFullscreen } from '../utils';
 dayjs.extend(duration);
 
 const useVideoPlayer = (videoPlayer: React.MutableRefObject<HTMLVideoElement | null>) => {
@@ -24,7 +25,11 @@ const useVideoPlayer = (videoPlayer: React.MutableRefObject<HTMLVideoElement | n
   };
 
   const toggleFullScreen = () => {
-    videoPlayer.current?.requestFullscreen();
+    if (checkFullscreen()) {
+      exitFullscreen();
+    } else {
+      enterFullscreen(videoPlayer.current);
+    }
   };
 
   const setDuration = (value: number) =>
