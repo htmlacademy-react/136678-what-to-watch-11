@@ -1,11 +1,11 @@
-import { image, lorem, name, music, random, date, internet } from 'faker';
+import { date, image, internet, lorem, music, name, random } from 'faker';
 import { Film } from '../types/film';
 import { Comment } from '../types/comment';
 import { UserInfo } from '../types/user-info';
 
 const getRandomNumber = (max: number): number => Math.floor(Math.random() * max);
-const getRandomColor = () => Math.floor(Math.random()*16777215).toString(16);
-const getRandomFullName = () => `${name.firstName()} ${name.lastName()}`;
+const getRandomColor = () => Math.floor(Math.random() * 16777215).toString(16);
+const getRandomFullName = () => `${ name.firstName() } ${ name.lastName() }`;
 const getRandomDate = (start: Date, end: Date): number => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).getFullYear();
 
 export const makeFakeFilm = (): Film => ({
@@ -21,7 +21,7 @@ export const makeFakeFilm = (): Film => ({
   rating: getRandomNumber(10),
   scoresCount: getRandomNumber(1000),
   director: getRandomFullName(),
-  starring: Array.from({length: getRandomNumber(5)}, getRandomFullName),
+  starring: Array.from({ length: 3 }, getRandomFullName),
   runTime: getRandomNumber(240),
   genre: music.genre(),
   released: getRandomDate(new Date(1970, 0, 1), new Date()),
@@ -43,5 +43,5 @@ export const makeFakeUser = (): UserInfo => ({
   id: getRandomNumber(1000),
   avatarUrl: image.imageUrl(),
   email: internet.email(),
-  token: random.alpha({count: 10}),
+  token: random.alpha({ count: 10 }),
 } as UserInfo);
