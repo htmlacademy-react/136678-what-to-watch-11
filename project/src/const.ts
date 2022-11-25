@@ -44,7 +44,13 @@ export enum NameSpace {
   User = 'USER',
 }
 
+export enum CommentLength {
+  Min = 50,
+  Max = 500,
+}
+
 export const DEFAULT_GENRE_FILTER = 'All genres';
 
 export const SIMILAR_FILM_COUNT = 4;
 export const DEFAULT_SHOWN_FILMS_COUNT = 8;
+export const MINUTES_IN_HOUR = 60;

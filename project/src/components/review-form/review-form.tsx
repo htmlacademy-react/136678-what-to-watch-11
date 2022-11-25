@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { addReviewAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks';
-import { APIRoute } from '../../const';
+import { APIRoute, CommentLength } from '../../const';
 import { NewComment } from '../../types/comment';
 
 type ReviewProps = {
@@ -22,7 +22,7 @@ function ReviewForm(): JSX.Element {
   });
 
   const isValid = useMemo(() =>
-    formState.rating && formState.comment.length >= 50 && formState.comment.length <= 400,
+    formState.rating && formState.comment.length >= CommentLength.Min && formState.comment.length <= CommentLength.Max,
   [formState.comment.length, formState.rating]);
 
   const handleFormChange = (evt: SyntheticEvent) => {
