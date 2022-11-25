@@ -389,7 +389,7 @@ describe('Async actions', () => {
 
     expect(actions).toEqual([
       getFilmCommentsAction.pending.type,
-      getFilmCommentsAction.fulfilled.type
+      getFilmCommentsAction.rejected.type
     ]);
   });
 
