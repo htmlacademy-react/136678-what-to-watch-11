@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import { checkFullscreen, enterFullscreen, exitFullscreen } from '../utils';
+import { checkFullscreen, enterFullscreen, exitFullscreen } from '../utils/fullscreen';
 dayjs.extend(duration);
 
 const useVideoPlayer = (videoPlayer: React.MutableRefObject<HTMLVideoElement | null>) => {

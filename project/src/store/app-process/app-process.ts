@@ -27,4 +27,4 @@ const appProcess = createSlice({
   }
 });
 
-export { appProcess };
+export { appProcess, initialState };
