@@ -1,4 +1,5 @@
 import { Film } from '../../types/film';
+import { MINUTES_IN_HOUR } from '../../const';
 
 type FilmDetailsProps = {
   film: Film;
@@ -14,6 +15,7 @@ function FilmDetails({ film }: FilmDetailsProps): JSX.Element {
   } = film;
 
   const actorList = starring.join(', ');
+  const filmDuration = `${Math.floor(runTime / MINUTES_IN_HOUR)}h ${runTime % MINUTES_IN_HOUR}m`;
 
   return (
     <div className="film-card__text film-card__row">
@@ -31,7 +33,7 @@ function FilmDetails({ film }: FilmDetailsProps): JSX.Element {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{`${Math.floor(runTime / 60)}h ${runTime % 60}m`}</span>
+          <span className="film-card__details-value">{filmDuration}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>

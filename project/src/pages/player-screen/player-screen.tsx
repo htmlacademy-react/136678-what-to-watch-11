@@ -31,7 +31,7 @@ function PlayerScreen(): JSX.Element {
     if (params.id) {
       dispatch(getFilmAction(params.id));
     }
-  }, [params.id]);
+  }, [dispatch, params.id]);
 
   if (!film && !isLoading) {
     return <NotFoundScreen />;

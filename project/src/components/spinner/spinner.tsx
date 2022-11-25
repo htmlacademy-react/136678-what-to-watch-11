@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import './spinner.css';
 
 type SpinnerProps = {
@@ -7,17 +5,6 @@ type SpinnerProps = {
 }
 
 function Spinner({ isLoading }: SpinnerProps) {
-
-  useEffect(() => {
-    const body = document.querySelector('body');
-
-    if (isLoading) {
-      body?.classList.add('overflow-hidden');
-    } else {
-      body?.classList.remove('overflow-hidden');
-    }
-  }, [isLoading]);
-
   if (!isLoading) {
     return null;
   }
