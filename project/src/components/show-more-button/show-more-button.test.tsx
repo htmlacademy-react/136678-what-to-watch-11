@@ -5,7 +5,7 @@ describe('Component: ShowMoreButton', () => {
   it('should render correctly', () => {
 
     render(
-      <ShowMoreButton onClick={() => {}}/>
+      <ShowMoreButton onClick={jest.fn()}/>
     );
 
     const buttonElement = screen.getByText('Show more');

@@ -19,7 +19,7 @@ describe('Reducer: dataProcess', () => {
       .toEqual(initialState);
   });
 
-  describe('getPromoFilmAction', () => {
+  describe('changeFavoriteStatusAction', () => {
     it('should set promoFilm if fulfilled', () => {
       expect(dataProcess.reducer(state, { type: changeFavoriteStatusAction.fulfilled.type, payload: film }))
         .toEqual({ promoFilm: film, films: [], isLoading: false });

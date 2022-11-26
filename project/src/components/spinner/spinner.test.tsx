@@ -5,7 +5,7 @@ describe('Component: Spinner', () => {
   it('should render correctly', () => {
 
     render(
-      <Spinner isLoading={true} />
+      <Spinner isLoading />
     );
 
     const textElement = screen.getByText('Spinner');
