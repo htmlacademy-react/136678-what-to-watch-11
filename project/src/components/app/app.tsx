@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
@@ -19,50 +19,48 @@ function App(): JSX.Element {
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path={AppRoute.Main}
-            element={<MainScreen />}
-          />
+      <Routes>
+        <Route
+          path={AppRoute.Main}
+          element={<MainScreen />}
+        />
 
-          <Route
-            path={AppRoute.Film}
-            element={<FilmScreen />}
-          />
+        <Route
+          path={AppRoute.Film}
+          element={<FilmScreen />}
+        />
 
-          <Route
-            path={AppRoute.AddReview}
-            element={<AddReviewScreen />}
-          />
+        <Route
+          path={AppRoute.AddReview}
+          element={<AddReviewScreen />}
+        />
 
-          <Route
-            path={AppRoute.Player}
-            element={<PlayerScreen />}
-          />
+        <Route
+          path={AppRoute.Player}
+          element={<PlayerScreen />}
+        />
 
-          <Route
-            path={AppRoute.SignIn}
-            element={<SignInScreen />}
-          />
+        <Route
+          path={AppRoute.SignIn}
+          element={<SignInScreen />}
+        />
 
-          <Route
-            path={AppRoute.MyList}
-            element={
-              <PrivateRoute
-                authorizationStatus={authorizationStatus}
-              >
-                <MyListScreen />
-              </PrivateRoute>
-            }
-          />
+        <Route
+          path={AppRoute.MyList}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+            >
+              <MyListScreen />
+            </PrivateRoute>
+          }
+        />
 
-          <Route
-            path={AppRoute.NotFound}
-            element={<NotFoundScreen />}
-          />
-        </Routes>
-      </BrowserRouter>
+        <Route
+          path={AppRoute.NotFound}
+          element={<NotFoundScreen />}
+        />
+      </Routes>
     </HelmetProvider>
   );
 }
