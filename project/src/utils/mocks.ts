@@ -9,7 +9,7 @@ const getRandomFullName = () => `${ name.firstName() } ${ name.lastName() }`;
 const getRandomDate = (start: Date, end: Date): number => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).getFullYear();
 
 export const makeFakeFilm = (): Film => ({
-  id: getRandomNumber(100),
+  id: getRandomNumber(1000),
   name: random.words(3),
   posterImage: image.imageUrl(),
   previewImage: image.imageUrl(),
@@ -31,7 +31,7 @@ export const makeFakeFilm = (): Film => ({
 export const makeFakeFilmComment = (): Comment => ({
   comment: lorem.sentence(),
   date: String(date.recent()),
-  id: getRandomNumber(100),
+  id: getRandomNumber(1000),
   rating: getRandomNumber(10),
   user: {
     id: getRandomNumber(1000),

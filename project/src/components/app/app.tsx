@@ -10,12 +10,13 @@ import PlayerScreen from '../../pages/player-screen/player-screen';
 import PrivateRoute from '../private-route/private-route';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 
-import { getAuthorizationStatus } from '../../store/user-process/selector';
+import { getAuthorizationLoadingStatus, getAuthorizationStatus } from '../../store/user-process/selector';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks';
 
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isAuthStatusLoading = useAppSelector(getAuthorizationLoadingStatus);
 
   return (
     <HelmetProvider>
@@ -32,7 +33,14 @@ function App(): JSX.Element {
 
         <Route
           path={AppRoute.AddReview}
-          element={<AddReviewScreen />}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+              isLoading={isAuthStatusLoading}
+            >
+              <AddReviewScreen />
+            </PrivateRoute>
+          }
         />
 
         <Route
@@ -50,6 +58,7 @@ function App(): JSX.Element {
           element={
             <PrivateRoute
               authorizationStatus={authorizationStatus}
+              isLoading={isAuthStatusLoading}
             >
               <MyListScreen />
             </PrivateRoute>

@@ -30,6 +30,7 @@ describe('Component: PrivateRouter', () => {
               path='/private'
               element={
                 <PrivateRoute
+                  isLoading={false}
                   authorizationStatus={AuthorizationStatus.NoAuth}
                 >
                   <h1>Private Route</h1>
@@ -63,6 +64,7 @@ describe('Component: PrivateRouter', () => {
               element={
                 <PrivateRoute
                   authorizationStatus={AuthorizationStatus.Auth}
+                  isLoading={false}
                 >
                   <h1>Private Route</h1>
                 </PrivateRoute>
@@ -75,5 +77,36 @@ describe('Component: PrivateRouter', () => {
 
     expect(screen.getByText(/Private Route/i)).toBeInTheDocument();
     expect(screen.queryByText(/Public Route/i)).not.toBeInTheDocument();
+  });
+
+  it('should render Spinner for public route, when isLoading', () => {
+    const store = mockStore();
+
+    render(
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <Routes>
+            <Route
+              path={AppRoute.SignIn}
+              element={<h1>Public Route</h1>}
+            />
+            <Route
+              path='/private'
+              element={
+                <PrivateRoute
+                  isLoading
+                  authorizationStatus={AuthorizationStatus.NoAuth}
+                >
+                  <h1>Private Route</h1>
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </HistoryRouter>
+      </Provider>,
+    );
+
+    expect(screen.getByText('Spinner')).toBeInTheDocument();
+    expect(screen.queryByText(/Private Route/i)).not.toBeInTheDocument();
   });
 });

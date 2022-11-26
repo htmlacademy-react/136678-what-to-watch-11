@@ -7,13 +7,21 @@ import { AuthorizationStatus, AppRoute } from '../../const';
 import App from './app';
 import { initialState } from '../../store/app-process/app-process';
 import { makeFakeFilm } from '../../utils/mocks';
+import thunk from 'redux-thunk';
 
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 
 const films = Array.from({ length: 10 }, () => makeFakeFilm());
 const promoFilm = makeFakeFilm();
 
 const store = mockStore({
+  APP: initialState,
+  DATA: { films: films, promoFilm: promoFilm, isLoading: false },
+  FILM: { film: promoFilm, similarFilms: films, filmComments: [], isLoading: false },
+  USER: { authorizationStatus: AuthorizationStatus.NoAuth, userInfo: null, favoriteFilms: films, isLoading: false, },
+});
+
+const authStore = mockStore({
   APP: initialState,
   DATA: { films: films, promoFilm: promoFilm, isLoading: false },
   FILM: { film: promoFilm, similarFilms: films, filmComments: [], isLoading: false },
@@ -26,6 +34,14 @@ const fakeApp = (
   <Provider store={ store }>
     <HistoryRouter history={history}>
       <App/>
+    </HistoryRouter>
+  </Provider>
+);
+
+const authFakeApp = (
+  <Provider store={authStore}>
+    <HistoryRouter history={history}>
+      <App />
     </HistoryRouter>
   </Provider>
 );
@@ -47,12 +63,80 @@ describe('Application Routing', () => {
     expect(screen.getByText('Show more')).toBeInTheDocument();
   });
 
-  it('should render "Sign-in screen" when user navigate to "/login"', () => {
+  it('should render "Sign-in screen" when no auth user navigate to "/login"', () => {
     history.push('/login');
 
     render(fakeApp);
+
     expect(screen.getByPlaceholderText(/Email address/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
     expect(screen.getByRole('button')).toBeInTheDocument();
+  });
+
+  it('should render "Main screen" when auth user navigate to "/login"', () => {
+    history.push('/login');
+
+    render(authFakeApp);
+
+    expect(screen.getByText(`${ promoFilm.name }`)).toBeInTheDocument();
+    expect(screen.getByText(`${ films[0].name }`)).toBeInTheDocument();
+    expect(screen.getByText('Show more')).toBeInTheDocument();
+  });
+
+  it('should render "My list screen" when auth user navigate to "/MyList"', () => {
+    history.push(AppRoute.MyList);
+
+    render(authFakeApp);
+
+    expect(screen.getByText(`${films[0].name}`)).toBeInTheDocument();
+    expect(screen.getByText(/My list/i)).toBeInTheDocument();
+  });
+
+  it('should render "Film screen" when user navigate to "/films/filmId"', () => {
+    history.push(AppRoute.Film);
+    window.scrollTo = jest.fn();
+
+    render(authFakeApp);
+
+    expect(screen.getByText(`${promoFilm.name}`)).toBeInTheDocument();
+    expect(screen.getByText(`${promoFilm.description}`)).toBeInTheDocument();
+    expect(screen.getByText(`${promoFilm.rating}`)).toBeInTheDocument();
+  });
+
+  it('should render "Player screen" when user navigate to "/films/filmId"', () => {
+    history.push(`${AppRoute.Player}`);
+
+    render(fakeApp);
+
+    expect(screen.getByText(`${promoFilm.name}`)).toBeInTheDocument();
+    expect(screen.getByText(/Exit/i)).toBeInTheDocument();
+    expect(screen.getByText(/Play/i)).toBeInTheDocument();
+  });
+
+  it('should render "Add review screen" when auth user navigate to "/films/filmId/review"', () => {
+    history.push(AppRoute.AddReview);
+
+    render(authFakeApp);
+
+    expect(screen.getByText(`${promoFilm.name}`)).toBeInTheDocument();
+  });
+
+  it('should render "Sign in screen" when no auth user navigate to "/films/filmId/review"', () => {
+    history.push(AppRoute.AddReview);
+
+    render(fakeApp);
+
+    expect(screen.getByPlaceholderText(/Email address/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
+  });
+
+  it('should render "Not found screen" when user navigate to unknown route', () => {
+    history.push('/unknown-route');
+
+    render(fakeApp);
+
+    expect(screen.getByText('404. Page not found')).toBeInTheDocument();
+    expect(screen.getByText('Вернуться на главную')).toBeInTheDocument();
   });
 });

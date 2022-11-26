@@ -9,4 +9,4 @@ export const getUserInfo = (state: State): UserInfo | null => state[NameSpace.Us
 
 export const getFavoriteFilms = (state: State): Film[] => state[NameSpace.User].favoriteFilms;
 
-export const getUserInfoLoadingStatus = (state: State): boolean => state[NameSpace.User].isLoading;
+export const getAuthorizationLoadingStatus = (state: State): boolean => state[NameSpace.User].isLoading;

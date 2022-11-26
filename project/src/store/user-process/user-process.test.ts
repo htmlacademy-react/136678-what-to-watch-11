@@ -29,6 +29,16 @@ describe('Reducer: userProcess', () => {
   });
 
   describe('checkAuthAction', () => {
+    it('should set isLoading to true while pending', () => {
+      expect(userProcess.reducer(state, { type: loginAction.pending.type }))
+        .toEqual({
+          authorizationStatus: AuthorizationStatus.Unknown,
+          userInfo: null,
+          favoriteFilms: [],
+          isLoading: true
+        });
+    });
+
     it('should set authorizationStatus and userInfo if fulfilled', () => {
       expect(userProcess.reducer(state, { type: checkAuthAction.fulfilled.type, payload: userInfo }))
         .toEqual({
@@ -41,6 +51,16 @@ describe('Reducer: userProcess', () => {
 
     it('should set authorizationStatus to NoAuth if rejected', () => {
       expect(userProcess.reducer(state, { type: checkAuthAction.rejected.type }))
+        .toEqual({
+          authorizationStatus: AuthorizationStatus.NoAuth,
+          userInfo: null,
+          favoriteFilms: [],
+          isLoading: false
+        });
+    });
+
+    it('should set authorizationStatus to NoAuth and isLoading to false if rejected', () => {
+      expect(userProcess.reducer(state, { type: loginAction.rejected.type }))
         .toEqual({
           authorizationStatus: AuthorizationStatus.NoAuth,
           userInfo: null,
