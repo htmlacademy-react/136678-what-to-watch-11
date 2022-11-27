@@ -27,11 +27,9 @@ const dataProcess = createSlice({
         state.isLoading = false;
       })
       .addCase(changeFavoriteStatusAction.fulfilled, (state, action) => {
-        if (state.promoFilm?.id === action.payload.id) {
-          state.promoFilm.isFavorite = action.payload.isFavorite;
-        }
+        state.promoFilm = action.payload;
       });
   }
 });
 
-export { dataProcess };
+export { dataProcess, initialState };

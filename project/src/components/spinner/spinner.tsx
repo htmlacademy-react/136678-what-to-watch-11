@@ -11,6 +11,7 @@ function Spinner({ isLoading }: SpinnerProps) {
 
   return (
     <div className="spinner-bg">
+      <span className="visually-hidden">Spinner</span>
       <div className="spinner">
         {Array.from({ length: 8}, (_, i) => <span key={i + 1} className={`ball-${ i + 1}`} />)}
       </div>

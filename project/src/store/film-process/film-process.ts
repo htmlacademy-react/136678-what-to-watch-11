@@ -56,4 +56,4 @@ const filmProcess = createSlice({
   }
 });
 
-export { filmProcess };
+export { filmProcess, initialState };

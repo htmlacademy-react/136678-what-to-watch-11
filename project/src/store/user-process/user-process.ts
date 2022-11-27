@@ -23,12 +23,17 @@ const userProcess = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(checkAuthAction.pending, (state, action) => {
+        state.isLoading = true;
+      })
       .addCase(checkAuthAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.userInfo = action.payload;
+        state.isLoading = false;
       })
       .addCase(checkAuthAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
+        state.isLoading = false;
       })
       .addCase(loginAction.pending, (state, action) => {
         state.isLoading = true;
@@ -60,4 +65,4 @@ const userProcess = createSlice({
   }
 });
 
-export { userProcess };
+export { userProcess, initialState };

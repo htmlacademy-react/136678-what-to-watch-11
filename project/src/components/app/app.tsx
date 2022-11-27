@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
@@ -10,59 +10,66 @@ import PlayerScreen from '../../pages/player-screen/player-screen';
 import PrivateRoute from '../private-route/private-route';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 
-import { getAuthorizationStatus } from '../../store/user-process/selector';
+import { getAuthorizationLoadingStatus, getAuthorizationStatus } from '../../store/user-process/selector';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks';
 
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isAuthStatusLoading = useAppSelector(getAuthorizationLoadingStatus);
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path={AppRoute.Main}
-            element={<MainScreen />}
-          />
+      <Routes>
+        <Route
+          path={AppRoute.Main}
+          element={<MainScreen />}
+        />
 
-          <Route
-            path={AppRoute.Film}
-            element={<FilmScreen />}
-          />
+        <Route
+          path={AppRoute.Film}
+          element={<FilmScreen />}
+        />
 
-          <Route
-            path={AppRoute.AddReview}
-            element={<AddReviewScreen />}
-          />
+        <Route
+          path={AppRoute.AddReview}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+              isLoading={isAuthStatusLoading}
+            >
+              <AddReviewScreen />
+            </PrivateRoute>
+          }
+        />
 
-          <Route
-            path={AppRoute.Player}
-            element={<PlayerScreen />}
-          />
+        <Route
+          path={AppRoute.Player}
+          element={<PlayerScreen />}
+        />
 
-          <Route
-            path={AppRoute.SignIn}
-            element={<SignInScreen />}
-          />
+        <Route
+          path={AppRoute.SignIn}
+          element={<SignInScreen />}
+        />
 
-          <Route
-            path={AppRoute.MyList}
-            element={
-              <PrivateRoute
-                authorizationStatus={authorizationStatus}
-              >
-                <MyListScreen />
-              </PrivateRoute>
-            }
-          />
+        <Route
+          path={AppRoute.MyList}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+              isLoading={isAuthStatusLoading}
+            >
+              <MyListScreen />
+            </PrivateRoute>
+          }
+        />
 
-          <Route
-            path={AppRoute.NotFound}
-            element={<NotFoundScreen />}
-          />
-        </Routes>
-      </BrowserRouter>
+        <Route
+          path={AppRoute.NotFound}
+          element={<NotFoundScreen />}
+        />
+      </Routes>
     </HelmetProvider>
   );
 }
