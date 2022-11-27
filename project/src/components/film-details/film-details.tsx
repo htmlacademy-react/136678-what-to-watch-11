@@ -18,7 +18,7 @@ function FilmDetails({ film }: FilmDetailsProps): JSX.Element {
   const filmDuration = `${Math.floor(runTime / MINUTES_IN_HOUR)}h ${runTime % MINUTES_IN_HOUR}m`;
 
   return (
-    <div className="film-card__text film-card__row">
+    <div className="film-card__text film-card__row" data-testid="film-details">
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Director</strong>

@@ -41,7 +41,7 @@ function AddReviewScreen(): JSX.Element {
             <img src={film?.backgroundImage} alt={film?.name} />
           </div>
 
-          <h1 className="visually-hidden">WTW</h1>
+          <h1 className="visually-hidden">WTW. {film?.name} Review</h1>
 
           <Header>
             {film && (<Breadcrumbs film={film} />)}
@@ -52,9 +52,11 @@ function AddReviewScreen(): JSX.Element {
           </div>
         </div>
 
-        <div className="add-review">
-          <ReviewForm />
-        </div>
+        {film && (
+          <div className="add-review">
+            <ReviewForm filmId={String(film.id)}/>
+          </div>
+        ) }
       </section>
     </>
   );

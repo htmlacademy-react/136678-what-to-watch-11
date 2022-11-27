@@ -7,7 +7,7 @@ type FilmReviewsProps = {
 
 function FilmReviews({ reviews }: FilmReviewsProps): JSX.Element {
   return (
-    <div className="film-card__reviews film-card__row">
+    <div className="film-card__reviews film-card__row" data-testid="film-reviews">
       <div className="film-card__reviews-col">
         {reviews?.map((item) => (
           <div key={item.id} className="review">

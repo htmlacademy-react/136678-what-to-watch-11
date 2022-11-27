@@ -1,4 +1,6 @@
-export const enterFullscreen = (element: HTMLElement | null): void => {
+import { VideoRef } from '../hooks/useVideoPlayer';
+
+export const enterFullscreen = (element: HTMLElement | VideoRef | null): void => {
   if (!element) {
     return;
   }

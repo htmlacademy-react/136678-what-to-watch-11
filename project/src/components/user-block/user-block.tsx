@@ -14,7 +14,7 @@ function UserBlock(): JSX.Element {
 
   const getUserBlockTemplate = (authStatus: AuthorizationStatus): JSX.Element =>
     authStatus === AuthorizationStatus.Auth ?
-      <ul className="user-block">
+      <ul className="user-block" data-testid="user-block">
         {userInfo?.avatarUrl && (
           <li className="user-block__item">
             <div className="user-block__avatar">
@@ -43,7 +43,7 @@ function UserBlock(): JSX.Element {
         </li>
       </ul>
       :
-      <div className="user-block">
+      <div className="user-block" data-testid="user-block">
         <Link to="/login" className="user-block__link">Sign in</Link>
       </div>;
 

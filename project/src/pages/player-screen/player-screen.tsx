@@ -45,7 +45,7 @@ function PlayerScreen(): JSX.Element {
   };
 
   return (
-    <div className="player">
+    <div className="player" data-testid="player-screen">
       <Spinner isLoading={isLoading} />
       <Helmet>
         <title>WTW. Player</title>

@@ -38,7 +38,7 @@ function SignInScreen() {
   }, [authorizationStatus, navigate]);
 
   return (
-    <div className="user-page">
+    <div className="user-page" data-testid="sign-in-screen">
       <Spinner isLoading={ isLoading } />
 
       <Helmet>

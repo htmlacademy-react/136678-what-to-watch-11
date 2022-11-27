@@ -6,18 +6,22 @@ const reviews = [makeFakeFilmComment()];
 
 describe('Component: FilmReviews', () => {
   it('should render correctly', () => {
-
     render(
       <FilmReviews reviews={reviews} />
     );
 
-    const review = reviews[0];
-    const textElement = screen.getByText(review.comment);
-    const userElement = screen.getByText(review.user.name);
-    const ratingElement = screen.getByText(review.rating);
+    const element = screen.getByTestId('film-reviews');
+    expect(element).toBeInTheDocument();
 
+    const { comment, user, rating } = reviews[0];
+
+    const textElement = screen.getByText(comment);
     expect(textElement).toBeInTheDocument();
+
+    const userElement = screen.getByText(user.name);
     expect(userElement).toBeInTheDocument();
+
+    const ratingElement = screen.getByText(rating);
     expect(ratingElement).toBeInTheDocument();
   });
 });
