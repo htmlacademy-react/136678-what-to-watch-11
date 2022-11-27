@@ -1,16 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { createMemoryHistory } from 'history';
+import { Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { createMemoryHistory } from 'history';
 import thunk from 'redux-thunk';
 
-import { Routes, Route } from 'react-router-dom';
-import FilmButtons from './film-buttons';
-import { AppRoute, AuthorizationStatus } from '../../const';
 
-import { makeFakeFilm } from '../../utils/mocks';
+import FilmButtons from './film-buttons';
 import HistoryRouter from '../history-router/history-router';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { makeFakeFilm } from '../../utils/mocks';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -24,13 +24,13 @@ const store = mockStore({
 
 describe('Component: FilmButtons', () => {
   beforeEach(() => {
-    history.push(`/films/${film.id}`);
+    history.push(`/films/${ film.id }`);
   });
   it('should render correctly', () => {
     render(
-      <Provider store={store}>
-        <HistoryRouter history={history}>
-          <FilmButtons film={film} showReviewButton />
+      <Provider store={ store }>
+        <HistoryRouter history={ history }>
+          <FilmButtons film={ film } showReviewButton />
         </HistoryRouter>
       </Provider>
     );
@@ -45,16 +45,16 @@ describe('Component: FilmButtons', () => {
 
   it('should redirect when user click "Film name" link', async () => {
     render(
-      <Provider store={store}>
-        <HistoryRouter history={history}>
+      <Provider store={ store }>
+        <HistoryRouter history={ history }>
           <Routes>
             <Route
-              path={AppRoute.Film}
-              element={<FilmButtons film={film} showReviewButton/>}
+              path={ AppRoute.Film }
+              element={ <FilmButtons film={ film } showReviewButton /> }
             />
             <Route
-              path={AppRoute.AddReview}
-              element={<h1>Mock AddReview Page Screen</h1>}
+              path={ AppRoute.AddReview }
+              element={ <h1>Mock AddReview Page Screen</h1> }
             />
           </Routes>
         </HistoryRouter>

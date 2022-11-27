@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import Breadcrumbs from './breadcrumbs';
@@ -13,12 +13,12 @@ const history = createMemoryHistory();
 
 describe('Component: Breadcrumbs', () => {
   beforeEach(() => {
-    history.push(`/films/${film.id}/review`);
+    history.push(`/films/${ film.id }/review`);
   });
   it('should render correctly', () => {
     render(
-      <HistoryRouter history={history}>
-        <Breadcrumbs film={film}/>
+      <HistoryRouter history={ history }>
+        <Breadcrumbs film={ film } />
       </HistoryRouter>
     );
 
@@ -30,15 +30,15 @@ describe('Component: Breadcrumbs', () => {
 
   it('should redirect when user click "Film name" link', async () => {
     render(
-      <HistoryRouter history={history}>
+      <HistoryRouter history={ history }>
         <Routes>
           <Route
-            path={AppRoute.AddReview}
-            element={<Breadcrumbs film={film} />}
+            path={ AppRoute.AddReview }
+            element={ <Breadcrumbs film={ film } /> }
           />
           <Route
-            path={AppRoute.Film}
-            element={<h1>Mock Film Page Screen</h1>}
+            path={ AppRoute.Film }
+            element={ <h1>Mock Film Page Screen</h1> }
           />
         </Routes>
       </HistoryRouter>

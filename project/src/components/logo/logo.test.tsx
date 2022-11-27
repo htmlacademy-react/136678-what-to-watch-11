@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import Logo from './logo';
-import { AppRoute } from '../../const';
 import HistoryRouter from '../history-router/history-router';
+import { AppRoute } from '../../const';
 
 const history = createMemoryHistory();
 
@@ -15,7 +15,7 @@ describe('Component: Logo', () => {
   });
   it('should render correctly', () => {
     render(
-      <HistoryRouter history={history}>
+      <HistoryRouter history={ history }>
         <Logo />
       </HistoryRouter>
     );
@@ -31,15 +31,15 @@ describe('Component: Logo', () => {
 
   it('should redirect to Main when user click on Logo', async () => {
     render(
-      <HistoryRouter history={history}>
+      <HistoryRouter history={ history }>
         <Routes>
           <Route
-            path={AppRoute.MyList}
-            element={<Logo />}
+            path={ AppRoute.MyList }
+            element={ <Logo /> }
           />
           <Route
-            path={AppRoute.Main}
-            element={<h1>Mock Main Page Screen</h1>}
+            path={ AppRoute.Main }
+            element={ <h1>Mock Main Page Screen</h1> }
           />
         </Routes>
       </HistoryRouter>

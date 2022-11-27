@@ -10,7 +10,7 @@ const comment = makeFakeFilmComment();
 describe('Component: FilmTabs', () => {
   it('should render correctly', () => {
     render(
-      <FilmTabs film={film} reviews={[comment]}/>
+      <FilmTabs film={ film } reviews={ [comment] } />
     );
 
     const overviewElement = screen.getByText(/Overview/i);
@@ -24,7 +24,7 @@ describe('Component: FilmTabs', () => {
 
   it('should show film overview when user click on "Overview" tab', async () => {
     render(
-      <FilmTabs film={film} reviews={[comment]}/>
+      <FilmTabs film={ film } reviews={ [comment] } />
     );
 
     await userEvent.click(screen.getByText(/Overview/i));
@@ -36,7 +36,7 @@ describe('Component: FilmTabs', () => {
 
   it('should show film details when user click on "Details" tab', async () => {
     render(
-      <FilmTabs film={film} reviews={[comment]}/>
+      <FilmTabs film={ film } reviews={ [comment] } />
     );
 
     await userEvent.click(screen.getByText(/Details/i));
@@ -48,7 +48,7 @@ describe('Component: FilmTabs', () => {
 
   it('should show film Reviews when user click on "Reviews" tab', async () => {
     render(
-      <FilmTabs film={film} reviews={[comment]}/>
+      <FilmTabs film={ film } reviews={ [comment] } />
     );
 
     await userEvent.click(screen.getByText(/Reviews/i));

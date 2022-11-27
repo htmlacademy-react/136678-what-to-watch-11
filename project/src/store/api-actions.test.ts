@@ -2,6 +2,7 @@ import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+
 import { createAPI } from '../services/api';
 import {
   addReviewAction,
@@ -58,13 +59,13 @@ describe('Async actions', () => {
     const fakeStore = mockStore();
     mockAPI
       .onGet(APIRoute.Login)
-      .reply(401, {error: 'You are not logged in or you do not have permission to this page.'});
+      .reply(401, { error: 'You are not logged in or you do not have permission to this page.' });
 
     expect(fakeStore.getActions()).toEqual([]);
 
     await fakeStore.dispatch(checkAuthAction());
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       checkAuthAction.pending.type,
@@ -97,7 +98,7 @@ describe('Async actions', () => {
   });
 
   it('should reject Login if login with error', async () => {
-    const fakeUser: AuthInfo = {login: 'test@test', password: '123456'};
+    const fakeUser: AuthInfo = { login: 'test@test', password: '123456' };
 
     mockAPI
       .onPost(APIRoute.Login)
@@ -107,7 +108,7 @@ describe('Async actions', () => {
 
     await fakeStore.dispatch(loginAction(fakeUser));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       loginAction.pending.type,
@@ -125,7 +126,7 @@ describe('Async actions', () => {
 
     await store.dispatch(logoutAction());
 
-    const actions = store.getActions().map(({type}) => type);
+    const actions = store.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       logoutAction.pending.type,
@@ -145,7 +146,7 @@ describe('Async actions', () => {
 
     await fakeStore.dispatch(logoutAction());
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       logoutAction.pending.type,
@@ -162,7 +163,7 @@ describe('Async actions', () => {
 
     await fakeStore.dispatch(getFavoriteFilmsAction());
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getFavoriteFilmsAction.pending.type,
@@ -173,13 +174,13 @@ describe('Async actions', () => {
   it('should reject getFavoriteFilmsAction when GET /favorite with error', async () => {
     mockAPI
       .onGet(APIRoute.Favorite)
-      .reply(401, {error: 'You are not logged in or you do not have permission to this page.'});
+      .reply(401, { error: 'You are not logged in or you do not have permission to this page.' });
 
     const fakeStore = mockStore();
 
     await fakeStore.dispatch(getFavoriteFilmsAction());
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getFavoriteFilmsAction.pending.type,
@@ -190,14 +191,14 @@ describe('Async actions', () => {
   it('should dispatch changeFavoriteStatusAction when POST /favorite/filmId/filmStatus', async () => {
     const newStatus = film.isFavorite ? 0 : 1;
     mockAPI
-      .onPost(`${APIRoute.Favorite}/${film.id}/${newStatus}`)
-      .reply(200, {...film, isFavorite: newStatus});
+      .onPost(`${ APIRoute.Favorite }/${ film.id }/${ newStatus }`)
+      .reply(200, { ...film, isFavorite: newStatus });
 
     const fakeStore = mockStore();
 
-    await fakeStore.dispatch(changeFavoriteStatusAction({filmId: film.id, status: newStatus}));
+    await fakeStore.dispatch(changeFavoriteStatusAction({ filmId: film.id, status: newStatus }));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       changeFavoriteStatusAction.pending.type,
@@ -208,14 +209,14 @@ describe('Async actions', () => {
   it('should reject changeFavoriteStatusAction when POST /favorite/filmId/filmStatus with error', async () => {
     const newStatus = film.isFavorite ? 0 : 1;
     mockAPI
-      .onPost(`${APIRoute.Favorite}/${film.id}/${newStatus}`)
-      .reply(401, {error: 'You are not logged in or you do not have permission to this page.'});
+      .onPost(`${ APIRoute.Favorite }/${ film.id }/${ newStatus }`)
+      .reply(401, { error: 'You are not logged in or you do not have permission to this page.' });
 
     const fakeStore = mockStore();
 
-    await fakeStore.dispatch(changeFavoriteStatusAction({filmId: film.id, status: newStatus}));
+    await fakeStore.dispatch(changeFavoriteStatusAction({ filmId: film.id, status: newStatus }));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       changeFavoriteStatusAction.pending.type,
@@ -232,7 +233,7 @@ describe('Async actions', () => {
 
     await fakeStore.dispatch(getPromoFilmAction());
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getPromoFilmAction.pending.type,
@@ -249,7 +250,7 @@ describe('Async actions', () => {
 
     await fakeStore.dispatch(getPromoFilmAction());
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getPromoFilmAction.pending.type,
@@ -266,7 +267,7 @@ describe('Async actions', () => {
 
     await fakeStore.dispatch(getFilmsAction());
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getFilmsAction.pending.type,
@@ -283,7 +284,7 @@ describe('Async actions', () => {
 
     await fakeStore.dispatch(getSimilarFilmsAction(String(film.id)));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getSimilarFilmsAction.pending.type,
@@ -293,14 +294,14 @@ describe('Async actions', () => {
 
   it('should dispatch getFilmAction when GET /film', async () => {
     mockAPI
-      .onGet(`${APIRoute.Films}/${film.id}`)
+      .onGet(`${ APIRoute.Films }/${ film.id }`)
       .reply(200, film);
 
     const fakeStore = mockStore();
 
     await fakeStore.dispatch(getFilmAction(String(film.id)));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getFilmAction.pending.type,
@@ -310,14 +311,14 @@ describe('Async actions', () => {
 
   it('should reject getFilmAction when GET /film with error', async () => {
     mockAPI
-      .onGet(`${APIRoute.Films}/${film.id}`)
+      .onGet(`${ APIRoute.Films }/${ film.id }`)
       .reply(404);
 
     const fakeStore = mockStore();
 
     await fakeStore.dispatch(getFilmAction(String(film.id)));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getFilmAction.pending.type,
@@ -327,14 +328,14 @@ describe('Async actions', () => {
 
   it('should dispatch getSimilarFilmsAction when GET /films/filmID/similar', async () => {
     mockAPI
-      .onGet(`${APIRoute.Films}/${film.id}/similar`)
+      .onGet(`${ APIRoute.Films }/${ film.id }/similar`)
       .reply(200, [film]);
 
     const fakeStore = mockStore();
 
     await fakeStore.dispatch(getSimilarFilmsAction(String(film.id)));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getSimilarFilmsAction.pending.type,
@@ -344,14 +345,14 @@ describe('Async actions', () => {
 
   it('should reject getSimilarFilmsAction when GET /films/filmID/similar with error', async () => {
     mockAPI
-      .onGet(`${APIRoute.Films}/${film.id}/similar`)
+      .onGet(`${ APIRoute.Films }/${ film.id }/similar`)
       .reply(404);
 
     const fakeStore = mockStore();
 
     await fakeStore.dispatch(getSimilarFilmsAction(String(film.id)));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getSimilarFilmsAction.pending.type,
@@ -361,14 +362,14 @@ describe('Async actions', () => {
 
   it('should dispatch getFilmCommentsAction when GET /comments/filmID', async () => {
     mockAPI
-      .onGet(`${APIRoute.Comments}/${film.id}`)
+      .onGet(`${ APIRoute.Comments }/${ film.id }`)
       .reply(200, comment);
 
     const fakeStore = mockStore();
 
     await fakeStore.dispatch(getFilmCommentsAction(String(film.id)));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getFilmCommentsAction.pending.type,
@@ -378,14 +379,14 @@ describe('Async actions', () => {
 
   it('should reject getFilmCommentsAction when GET /comments/filmID with error', async () => {
     mockAPI
-      .onGet(`${APIRoute.Comments}/${film.id}`)
+      .onGet(`${ APIRoute.Comments }/${ film.id }`)
       .reply(404);
 
     const fakeStore = mockStore();
 
     await fakeStore.dispatch(getFilmCommentsAction(String(film.id)));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       getFilmCommentsAction.pending.type,
@@ -395,14 +396,14 @@ describe('Async actions', () => {
 
   it('Should dispatch addReviewAction when POST /comments/filmID', async () => {
     mockAPI
-      .onPost(`${APIRoute.Comments}/${film.id}`)
+      .onPost(`${ APIRoute.Comments }/${ film.id }`)
       .reply(200, comment);
 
     const fakeStore = mockStore();
 
-    await fakeStore.dispatch(addReviewAction([String(film.id), {comment: comment.comment, rating: comment.rating}]));
+    await fakeStore.dispatch(addReviewAction([String(film.id), { comment: comment.comment, rating: comment.rating }]));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       addReviewAction.pending.type,
@@ -412,14 +413,14 @@ describe('Async actions', () => {
 
   it('Should reject addReviewAction when POST /comments/filmID with error', async () => {
     mockAPI
-      .onPost(`${APIRoute.Comments}/${film.id}`)
-      .reply(401, {'error': 'You are not logged in or you do not have permission to this page.'});
+      .onPost(`${ APIRoute.Comments }/${ film.id }`)
+      .reply(401, { 'error': 'You are not logged in or you do not have permission to this page.' });
 
     const fakeStore = mockStore();
 
-    await fakeStore.dispatch(addReviewAction([String(film.id), {comment: comment.comment, rating: comment.rating}]));
+    await fakeStore.dispatch(addReviewAction([String(film.id), { comment: comment.comment, rating: comment.rating }]));
 
-    const actions = fakeStore.getActions().map(({type}) => type);
+    const actions = fakeStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       addReviewAction.pending.type,

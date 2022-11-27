@@ -1,12 +1,12 @@
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 
-import userEvent from '@testing-library/user-event';
+import GenreList from './genre-list';
 import { initialState } from '../../store/app-process/app-process';
 import { AuthorizationStatus, DEFAULT_GENRE_FILTER } from '../../const';
 import { makeFakeFilm } from '../../utils/mocks';
-import GenreList from './genre-list';
 
 const promoFilm = makeFakeFilm();
 const films = Array.from({length: 10}, () => makeFakeFilm());

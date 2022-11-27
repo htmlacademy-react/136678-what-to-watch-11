@@ -1,15 +1,16 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { createMemoryHistory } from 'history';
+import { Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { createMemoryHistory } from 'history';
 import thunk from 'redux-thunk';
 
-import { Route, Routes } from 'react-router-dom';
+
 import Header from './header';
-import { AppRoute, AuthorizationStatus } from '../../const';
-import userEvent from '@testing-library/user-event';
-import { makeFakeUser } from '../../utils/mocks';
 import HistoryRouter from '../history-router/history-router';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { makeFakeUser } from '../../utils/mocks';
 
 const mockStore = configureMockStore([thunk]);
 
