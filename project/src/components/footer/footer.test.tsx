@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import Footer from './footer';
@@ -15,7 +15,7 @@ describe('Component: Footer', () => {
   });
   it('should render correctly', () => {
     render(
-      <HistoryRouter history={history}>
+      <HistoryRouter history={ history }>
         <Footer />
       </HistoryRouter>
     );
@@ -28,15 +28,15 @@ describe('Component: Footer', () => {
 
   it('should redirect to Main when user click on Logo', async () => {
     render(
-      <HistoryRouter history={history}>
+      <HistoryRouter history={ history }>
         <Routes>
           <Route
-            path={AppRoute.MyList}
-            element={<Footer />}
+            path={ AppRoute.MyList }
+            element={ <Footer /> }
           />
           <Route
-            path={AppRoute.Main}
-            element={<h1>Mock Main Page Screen</h1>}
+            path={ AppRoute.Main }
+            element={ <h1>Mock Main Page Screen</h1> }
           />
         </Routes>
       </HistoryRouter>

@@ -1,15 +1,15 @@
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { Routes, Route } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { createMemoryHistory } from 'history';
 import thunk from 'redux-thunk';
 
 import UserBlock from './user-block';
 import HistoryRouter from '../history-router/history-router';
+import { AppRoute, AuthorizationStatus, } from '../../const';
 import { makeFakeUser } from '../../utils/mocks';
-import { AppRoute, AuthorizationStatus,} from '../../const';
 
 const userInfo = makeFakeUser();
 const history = createMemoryHistory();
@@ -32,8 +32,8 @@ describe('Component: UserBlock', () => {
     it('should render correctly', () => {
 
       render(
-        <Provider store={store}>
-          <HistoryRouter history={history}>
+        <Provider store={ store }>
+          <HistoryRouter history={ history }>
             <UserBlock />
           </HistoryRouter>
         </Provider>
@@ -45,16 +45,16 @@ describe('Component: UserBlock', () => {
 
     it('should redirect to login page when user click on "Sign-in"', async () => {
       render(
-        <Provider store={store}>
-          <HistoryRouter history={history}>
+        <Provider store={ store }>
+          <HistoryRouter history={ history }>
             <Routes>
               <Route
-                path={AppRoute.Main}
-                element={<UserBlock />}
+                path={ AppRoute.Main }
+                element={ <UserBlock /> }
               />
               <Route
-                path={AppRoute.SignIn}
-                element={<h1>Mock Login Screen</h1>}
+                path={ AppRoute.SignIn }
+                element={ <h1>Mock Login Screen</h1> }
               />
             </Routes>
           </HistoryRouter>
@@ -69,8 +69,8 @@ describe('Component: UserBlock', () => {
   describe('UserBlock with authorization', () => {
     it('should render correctly', () => {
       render(
-        <Provider store={storeWithAuth}>
-          <HistoryRouter history={history}>
+        <Provider store={ storeWithAuth }>
+          <HistoryRouter history={ history }>
             <UserBlock />
           </HistoryRouter>
         </Provider>
@@ -85,16 +85,16 @@ describe('Component: UserBlock', () => {
 
     it('should redirect to My list page when user click on "Avatar"', async () => {
       render(
-        <Provider store={storeWithAuth}>
-          <HistoryRouter history={history}>
+        <Provider store={ storeWithAuth }>
+          <HistoryRouter history={ history }>
             <Routes>
               <Route
-                path={AppRoute.Main}
-                element={<UserBlock />}
+                path={ AppRoute.Main }
+                element={ <UserBlock /> }
               />
               <Route
-                path={AppRoute.MyList}
-                element={<h1>Mock My list Screen</h1>}
+                path={ AppRoute.MyList }
+                element={ <h1>Mock My list Screen</h1> }
               />
             </Routes>
           </HistoryRouter>
@@ -110,8 +110,8 @@ describe('Component: UserBlock', () => {
     it('should call Logout action when user click on "Sign out"', async () => {
 
       render(
-        <Provider store={storeWithAuth}>
-          <HistoryRouter history={history}>
+        <Provider store={ storeWithAuth }>
+          <HistoryRouter history={ history }>
             <UserBlock />
           </HistoryRouter>
         </Provider>

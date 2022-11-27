@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+
 import FilmReviews from './film-reviews';
 import { makeFakeFilmComment } from '../../utils/mocks';
 
@@ -7,7 +8,7 @@ const reviews = [makeFakeFilmComment()];
 describe('Component: FilmReviews', () => {
   it('should render correctly', () => {
     render(
-      <FilmReviews reviews={reviews} />
+      <FilmReviews reviews={ reviews } />
     );
 
     const element = screen.getByTestId('film-reviews');

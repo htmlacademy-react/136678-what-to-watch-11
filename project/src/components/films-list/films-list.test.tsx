@@ -5,9 +5,9 @@ import { Provider } from 'react-redux';
 import { AppRoute } from '../../const';
 
 import FilmsList from './films-list';
+import HistoryRouter from '../history-router/history-router';
 import { initialState } from '../../store/app-process/app-process';
 import { makeFakeFilm } from '../../utils/mocks';
-import HistoryRouter from '../history-router/history-router';
 
 const history = createMemoryHistory();
 const film = makeFakeFilm();
@@ -29,9 +29,9 @@ describe('Component: FilmsList', () => {
 
   it('should render correctly', () => {
     render(
-      <Provider store={store}>
-        <HistoryRouter history={history}>
-          <FilmsList films={films} />
+      <Provider store={ store }>
+        <HistoryRouter history={ history }>
+          <FilmsList films={ films } />
         </HistoryRouter>
       </Provider>,
     );

@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+
 import FilmDetails from './film-details';
 import { makeFakeFilm } from '../../utils/mocks';
 

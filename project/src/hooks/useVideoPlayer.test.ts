@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderHook, act } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import useVideoPlayer, { VideoRef } from './useVideoPlayer';
 
 const video: VideoRef = {
@@ -10,7 +10,7 @@ const video: VideoRef = {
   duration: 90,
 };
 
-const ref: React.MutableRefObject<VideoRef | null> = { current: video};
+const ref: React.MutableRefObject<VideoRef | null> = { current: video };
 
 describe('Hook: useVideoPlayer', () => {
   it('should set isPlaying to true when call togglePlay', () => {

@@ -26,9 +26,9 @@ describe('Component: ReviewForm', () => {
 
   it('should render correctly', () => {
     render(
-      <Provider store={store}>
-        <HistoryRouter history={history} >
-          <ReviewForm filmId={String(film.id)} />
+      <Provider store={ store }>
+        <HistoryRouter history={ history }>
+          <ReviewForm filmId={ String(film.id) } />
         </HistoryRouter>
       </Provider>
     );
@@ -42,9 +42,9 @@ describe('Component: ReviewForm', () => {
 
   it('should dispatch addReviewAction when user typted correct data and click on "Post"', async () => {
     render(
-      <Provider store={store}>
-        <HistoryRouter history={history} >
-          <ReviewForm filmId={String(film.id)} />
+      <Provider store={ store }>
+        <HistoryRouter history={ history }>
+          <ReviewForm filmId={ String(film.id) } />
         </HistoryRouter>
       </Provider>
     );
