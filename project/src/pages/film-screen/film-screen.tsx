@@ -60,7 +60,7 @@ function FilmScreen(): JSX.Element | null {
             <img src={ film?.backgroundImage } alt={ film?.name }/>
           </div>
 
-          <h1 className="visually-hidden">WTW</h1>
+          <h1 className="visually-hidden">WTW. {film?.name}</h1>
 
           <Header className="film-card__head" />
 

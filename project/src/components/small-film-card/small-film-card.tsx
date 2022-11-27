@@ -44,7 +44,7 @@ function SmallFilmCard({ film, isActive, setActiveId }: SmallFilmCardProps): JSX
   return (
     <article className="small-film-card catalog__films-card" onMouseOver={handlerMouseOver} onMouseOut={handlerMouseOut}>
       <Link to={`/films/${film.id}`} className="small-film-card__link">
-        <video height="175" ref={videoRef} src={film.previewVideoLink} muted poster={film.previewImage} />
+        <video height="175" ref={videoRef} src={film.previewVideoLink} muted poster={film.previewImage} data-testid={`video-${film.id}`} />
         <h3 className="small-film-card__title">
           {film.name}
         </h3>

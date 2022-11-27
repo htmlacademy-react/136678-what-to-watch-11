@@ -35,7 +35,7 @@ function FilmOverview({ film }: FilmOverviewProps): JSX.Element {
   };
 
   return (
-    <>
+    <div data-testid="film-overview">
       <div className="film-rating">
         <div className="film-rating__score">{ rating }</div>
         <p className="film-rating__meta">
@@ -48,7 +48,7 @@ function FilmOverview({ film }: FilmOverviewProps): JSX.Element {
         <p className="film-card__director"><strong>Director: { director }</strong></p>
         <p className="film-card__starring"><strong>Starring: { actorList }</strong></p>
       </div>
-    </>
+    </div>
   );
 }
 

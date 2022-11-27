@@ -4,7 +4,18 @@ import duration from 'dayjs/plugin/duration';
 import { checkFullscreen, enterFullscreen, exitFullscreen } from '../utils/fullscreen';
 dayjs.extend(duration);
 
-const useVideoPlayer = (videoPlayer: React.MutableRefObject<HTMLVideoElement | null>) => {
+export type VideoRef = {
+  requestFullscreen: () => void;
+  pause: () => void;
+  play: () => void;
+  currentTime: number;
+  duration: number;
+  webkitRequestFullscreen?: () => void;
+  mozRequestFullScreen?: () => void;
+  msRequestFullscreen?: () => void;
+}
+
+const useVideoPlayer = (videoPlayer: React.MutableRefObject<HTMLVideoElement | VideoRef | null>) => {
   const [playerState, setPlayerState] = useState({
     isPlaying: false,
     progress: 0,

@@ -32,7 +32,7 @@ function FilmTabs({ film, reviews }: FilmTabsProps): JSX.Element {
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
           {Object.values(FilmTab).map((tab) => (
-            <li key={tab} className={`film-nav__item ${activeTab === tab ? 'film-nav__item--active' : ''}`} onClick={() => setActiveTab(tab)}>
+            <li key={tab} className={`film-nav__item ${activeTab === tab ? 'film-nav__item--active' : ''}`} onClick={() => setActiveTab(tab)} data-testid={tab}>
               <a className="film-nav__link">{tab}</a>
             </li>
           ))}
